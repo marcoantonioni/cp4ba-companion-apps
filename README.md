@@ -1,4 +1,4 @@
-# Companion applications for cp4ba-installtions tool
+# Companion applications for cp4ba-installations tool
 
 ## cp4ba-custom-db-test
 
