@@ -1,6 +1,8 @@
 # Companion applications for cp4ba-installations tool
 
-## cp4ba-custom-db-test
+## BAW
+
+### cp4ba-custom-db-test
 
 Test application for configuration with custom application db.
 
@@ -32,3 +34,8 @@ INSERT INTO myuser.utenti (id, name, email, id_status) VALUES (5, 'vuxuser5', 'v
 
 select * from myuser.utenti;
 ```
+
+## ADS
+
+https://github.com/icp4a/automation-decision-services-samples
+
