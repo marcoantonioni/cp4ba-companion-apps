@@ -39,3 +39,8 @@ select * from myuser.utenti;
 
 https://github.com/icp4a/automation-decision-services-samples
 
+## RPA
+
+MyBot1.wal and MyBot1.wal simple bots used in blog post 
+
+[End-to-End Automation with IBM Robotic Process Automation on Red Hat OpenShift: Installation, Tenant Configuration, Sample Test Bot Design, and REST API Orchestration](https://community.ibm.com/community/user/blogs/marco-antonioni/2026/09/28/end-to-end-automation-with-ibm-rpa)

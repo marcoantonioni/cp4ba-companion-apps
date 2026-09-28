@@ -1,0 +1,96 @@
+
+	3ûpõõ÷√H∞ÚtI‰â/pô!defVar --name localInput --type String --value DefaultTestValue --parameter  --required 
+defVar --name dateTimeOfRun --type String
+defVar --name theUserId --type String
+defVar --name runDateTime --type DateTime
+defVar --name dtYear --type Numeric
+defVar --name dtMonth --type Numeric
+defVar --name dtDay --type Numeric
+defVar --name dtHour --type Numeric
+defVar --name dtMinute --type Numeric
+defVar --name dtSecond --type Numeric
+defVar --name strYear --type String
+defVar --name strMonth --type String
+defVar --name strDay --type String
+defVar --name strHour --type String
+defVar --name strMinute --type String
+defVar --name strSecond --type String
+defVar --name isNullOrEmpty --type Boolean
+
+goSub --label Init
+goSub --label BuildDateTime
+goSub --label LogRun
+goSub --label Wait
+goSub --label LogFinish
+goSub --label Cleanup
+
+beginSub --name Init
+logMessage --message "‚Üí Init Bot2: start" --type "Info"
+onError --label ErrorHandler
+
+// Check if input parameter is null or empty; if so, assign default value
+textNullOrEmpty --text "${localInput}" isNullOrEmpty=value
+if --left "${isNullOrEmpty}" --operator "Equal_To" --right True
+	setVar --name "${localInput}" --value "No input found"
+endIf
+// Read the Windows user id running this bot instance
+getEnvVar --name USERNAME --target "Process" theUserId=value
+logMessage --message "‚Üê Init Bot2: done ‚Äî localInput=[${localInput}] theUserId=[${theUserId}]" --type "Info"
+endSub
+
+beginSub --name BuildDateTime
+logMessage --message "‚Üí BuildDateTime: start" --type "Info"
+onError --label ErrorHandler
+// Get current local date and time
+getCurrentDateAndTime --localorutc "LocalTime" runDateTime=value
+// Extract each date/time component
+getDatePart --date "${runDateTime}" --type "Years" dtYear=value
+getDatePart --date "${runDateTime}" --type "Months" dtMonth=value
+getDatePart --date "${runDateTime}" --type "Days" dtDay=value
+getDatePart --date "${runDateTime}" --type "Hours" dtHour=value
+getDatePart --date "${runDateTime}" --type "Minutes" dtMinute=value
+getDatePart --date "${runDateTime}" --type "Seconds" dtSecond=value
+// Zero-pad each component to ensure correct format
+padText --text "${dtYear}" --type "Left" --paddingchar 0 --length 4 strYear=value
+padText --text "${dtMonth}" --type "Left" --paddingchar 0 --length 2 strMonth=value
+padText --text "${dtDay}" --type "Left" --paddingchar 0 --length 2 strDay=value
+padText --text "${dtHour}" --type "Left" --paddingchar 0 --length 2 strHour=value
+padText --text "${dtMinute}" --type "Left" --paddingchar 0 --length 2 strMinute=value
+padText --text "${dtSecond}" --type "Left" --paddingchar 0 --length 2 strSecond=value
+// Build the formatted date-time string: AAAA-MM-DD HH:MM:SS
+setVar --name "${dateTimeOfRun}" --value "${strYear}-${strMonth}-${strDay} ${strHour}:${strMinute}:${strSecond}"
+logMessage --message "‚Üê BuildDateTime: done ‚Äî dateTimeOfRun=${dateTimeOfRun}" --type "Info"
+endSub
+
+beginSub --name LogRun
+logMessage --message "‚Üí LogRun: start" --type "Info"
+onError --label ErrorHandler
+// Log to IBM RPA console and also to Windows Event Log (event id 987)
+logMessage --message "Bot2 run at ${dateTimeOfRun} with param value [ ${localInput} ] using userId [ ${theUserId} ]" --type "Info" --logonwindows  --eventid 987
+logMessage --message "‚Üê LogRun: done" --type "Info"
+endSub
+
+beginSub --name Wait
+logMessage --message "‚Üí Wait: start ‚Äî waiting 1 minutes" --type "Info"
+onError --label ErrorHandler
+delay --timeout "00:01:00"
+logMessage --message "‚Üê Wait: done" --type "Info"
+endSub
+
+beginSub --name LogFinish
+logMessage --message "‚Üí LogFinish: start" --type "Info"
+onError --label ErrorHandler
+logMessage --message "Bot2 started at [ ${dateTimeOfRun} ] userId [ ${theUserId} ] finished its work after programmed delay" --type "Info" --logonwindows  --eventid 988
+logMessage --message "‚Üê LogFinish: done" --type "Info"
+endSub
+
+beginSub --name ErrorHandler
+logMessage --message "ERROR in BotScheduleDateTime ‚Äî stopping execution" --type "Error"
+stopExecution
+endSub
+
+beginSub --name Cleanup
+logMessage --message "‚Üí Cleanup: start" --type "Info"
+logMessage --message "‚Üê Cleanup: done" --type "Info"
+endSub
+"	 ê†eè∞H∑pË/+¿*30.0.3.0
