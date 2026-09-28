@@ -35,11 +35,11 @@ INSERT INTO myuser.utenti (id, name, email, id_status) VALUES (5, 'vuxuser5', 'v
 select * from myuser.utenti;
 ```
 
-## ADS
+## [ADS](https://github.com/icp4a/automation-decision-services-samples)
 
-https://github.com/icp4a/automation-decision-services-samples
 
-## RPA
+
+## [RPA](rpa-apps/README.md)
 
 MyBot1.wal and MyBot1.wal simple bots used in blog post 
 
